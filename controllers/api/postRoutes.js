@@ -99,8 +99,7 @@ router.put('/:id', withAuth, async (req, res) => {
 		postData = await Post.update(
 			{
 				title: req.body.title,
-				post_content: req.body.post_content,
-				updated_at: sequelize.fn('NOW'),
+				post_content: req.body.post_content
 			},
 			{
 				where: {
