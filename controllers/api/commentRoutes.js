@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 
 
 // GET /api/comments/:id
-router.get('/:id', withAuth, async (req, res) => {
+router.get('/:id', async (req, res) => {
 	try {
 		const commentData = await Comment.findByPk(req.params.id, {
 			attributes: ['id', 'comment_content', 'post_id', 'user_id', 'created_at'],
