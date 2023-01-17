@@ -89,7 +89,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 // PUT /api/posts/:id
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
 	// expects {title: 'New Title', post_content: 'New Text, user_id: 1}
 	try {
 		if (!req.session) {
@@ -120,7 +120,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE /api/posts/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
 	try {
 		if (!req.session) {
 			res.status(404).json({ message: 'No session found!' });
@@ -142,6 +142,5 @@ router.delete('/:id', async (req, res) => {
 		res.status(500).json(err);
 	}
 });
-
 
 module.exports = router;
