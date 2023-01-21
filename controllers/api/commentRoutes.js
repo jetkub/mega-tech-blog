@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
 			include: [
 				{
 					model: User,
-					attributes: ['username'],
+					attributes: ['email'],
 				},
 				{
 					model: Post,
@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
 			include: [
 				{
 					model: User,
-					attributes: ['username'],
+					attributes: ['email'],
 				},
 				{
 					model: Post,
