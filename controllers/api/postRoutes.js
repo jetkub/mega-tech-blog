@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
 const sequelize = require('../../config/connection');
-// const withAuth = require('../../utils/auth');
+const withAuth = require('../../utils/auth');
 
 // GET /api/posts
 router.get('/', async (req, res) => {
@@ -73,14 +73,14 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /api/posts
-router.post('/', async (req, res) => {
+// router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
 	// expects {title: 'title', post_content: 'big blob of text', user_id: 'number'}
-// router.post('/', withAuth, async (req, res) => {
 	try {
-		// if (!req.session) {
-		// 	res.status(404).json({ message: 'No session found!' });
-		// 	return;
-		// }
+		if (!req.session) {
+			res.status(404).json({ message: 'No session found!' });
+			return;
+		}
 		const postData = await Post.create({
 			title: req.body.title,
 			post_content: req.body.post_content,
@@ -94,18 +94,18 @@ router.post('/', async (req, res) => {
 });
 
 // PUT /api/posts/:id
-router.put('/:id', async (req, res) => {
-// router.put('/:id', withAuth, async (req, res) => {
+// router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
 	// expects {title: 'New Title', post_content: 'New Text' user_id: 1}
 	try {
-		// if (!req.session) {
-		// 	res.status(404).json({ message: 'No session found!' });
-		// 	return;
-		// }
+		if (!req.session) {
+			res.status(404).json({ message: 'No session found!' });
+			return;
+		}
 		postData = await Post.update(
 			{
 				title: req.body.title,
-				post_content: req.body.post_content
+				post_content: req.body.post_content,
 			},
 			{
 				where: {
@@ -125,13 +125,13 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE /api/posts/:id
-router.delete('/:id', async (req, res) => {
-// router.delete('/:id', withAuth, async (req, res) => {
+// router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
 	try {
-		// if (!req.session) {
-		// 	res.status(404).json({ message: 'No session found!' });
-		// 	return;
-		// }
+		if (!req.session) {
+			res.status(404).json({ message: 'No session found!' });
+			return;
+		}
 		const postData = await Post.destroy({
 			where: {
 				id: req.params.id,
