@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
-const withAuth = require('../../utils/auth');
+const sequelize = require('../../config/connection');
+// const withAuth = require('../../utils/auth');
 
 // GET /api/posts
 router.get('/', async (req, res) => {
@@ -11,6 +12,7 @@ router.get('/', async (req, res) => {
 				'post_content',
 				'title',
 				'created_at',
+				'updated_at',
 				// use raw MySQL aggregate function query to get a count of how many comments are on each post and return it under the name `comment_count`
 				[
 					sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'),
@@ -21,7 +23,7 @@ router.get('/', async (req, res) => {
 			include: [
 				{
 					model: User,
-					attributes: ['email'],
+					attributes: ['username'],
 				},
 			],
 		});
@@ -40,6 +42,7 @@ router.get('/:id', async (req, res) => {
 				'post_content',
 				'title',
 				'created_at',
+				'updated_at',
 				// use raw MySQL aggregate function query to get a count of how many comments are on each post and return it under the name `comment_count`
 				[
 					sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'),
@@ -49,7 +52,7 @@ router.get('/:id', async (req, res) => {
 			include: [
 				{
 					model: User,
-					attributes: ['email'],
+					attributes: ['username'],
 				},
 				{
 					model: Comment,
@@ -70,12 +73,14 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /api/posts
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
+	// expects {title: 'title', post_content: 'big blob of text', user_id: 'number'}
+// router.post('/', withAuth, async (req, res) => {
 	try {
-		if (!req.session) {
-			res.status(404).json({ message: 'No session found!' });
-			return;
-		}
+		// if (!req.session) {
+		// 	res.status(404).json({ message: 'No session found!' });
+		// 	return;
+		// }
 		const postData = await Post.create({
 			title: req.body.title,
 			post_content: req.body.post_content,
@@ -89,13 +94,14 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 // PUT /api/posts/:id
-router.put('/:id', withAuth, async (req, res) => {
-	// expects {title: 'New Title', post_content: 'New Text, user_id: 1}
+router.put('/:id', async (req, res) => {
+// router.put('/:id', withAuth, async (req, res) => {
+	// expects {title: 'New Title', post_content: 'New Text' user_id: 1}
 	try {
-		if (!req.session) {
-			res.status(404).json({ message: 'No session found!' });
-			return;
-		}
+		// if (!req.session) {
+		// 	res.status(404).json({ message: 'No session found!' });
+		// 	return;
+		// }
 		postData = await Post.update(
 			{
 				title: req.body.title,
@@ -119,12 +125,13 @@ router.put('/:id', withAuth, async (req, res) => {
 });
 
 // DELETE /api/posts/:id
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
+// router.delete('/:id', withAuth, async (req, res) => {
 	try {
-		if (!req.session) {
-			res.status(404).json({ message: 'No session found!' });
-			return;
-		}
+		// if (!req.session) {
+		// 	res.status(404).json({ message: 'No session found!' });
+		// 	return;
+		// }
 		const postData = await Post.destroy({
 			where: {
 				id: req.params.id,

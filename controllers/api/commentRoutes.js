@@ -1,16 +1,16 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
-const withAuth = require('../../utils/auth');
+// const withAuth = require('../../utils/auth');
 
 // GET /api/comments
 router.get('/', async (req, res) => {
 	try {
 		const commentData = await Comment.findAll({
-			attributes: ['id', 'comment_content', 'post_id', 'user_id', 'created_at'],
+			attributes: ['id', 'comment_content', 'post_id', 'user_id', 'created_at', 'updated_at'],
 			include: [
 				{
 					model: User,
-					attributes: ['email'],
+					attributes: ['username'],
 				},
 				{
 					model: Post,
@@ -30,11 +30,11 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 	try {
 		const commentData = await Comment.findByPk(req.params.id, {
-			attributes: ['id', 'comment_content', 'post_id', 'user_id', 'created_at'],
+			attributes: ['id', 'comment_content', 'post_id', 'user_id', 'created_at', 'updated_at'],
 			include: [
 				{
 					model: User,
-					attributes: ['email'],
+					attributes: ['username'],
 				},
 				{
 					model: Post,
@@ -55,12 +55,13 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /api/comments
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
+//router.post('/', withAuth, async (req, res) => {
 	try {
-		if (!req.session) {
-			res.status(400).json({ message: 'You must be logged in to post a comment!' });
-			return;
-		}
+		// if (!req.session) {
+		// 	res.status(400).json({ message: 'You must be logged in to post a comment!' });
+		// 	return;
+		// }
 		const commentData = await Comment.create({
 			comment_content: req.body.comment_content,
 			post_id: req.body.post_id,
@@ -73,12 +74,13 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 // PUT /api/comments/:id
-router.put('/:id', withAuth, async (req, res) => {
+router.put('/:id', async (req, res) => {
+//router.put('/:id', withAuth, async (req, res) => {
 	try {
-		if (!req.session) {
-			res.status(400).json({ message: 'You must be logged in to update a comment!' });
-			return;
-		}
+		// if (!req.session) {
+		// 	res.status(400).json({ message: 'You must be logged in to update a comment!' });
+		// 	return;
+		// }
 		const commentData = await Comment.update(
 			{
 				comment_content: req.body.comment_content,
@@ -102,12 +104,13 @@ router.put('/:id', withAuth, async (req, res) => {
 });
 
 // DELETE /api/comments/:id
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
+// router.delete('/:id', withAuth, async (req, res) => {
 	try {
-		if (!req.session) {
-			res.status(400).json({ message: 'You must be logged in to delete a comment!' });
-			return;
-		}
+		// if (!req.session) {
+		// 	res.status(400).json({ message: 'You must be logged in to delete a comment!' });
+		// 	return;
+		// }
 		const commentData = await Comment.destroy({
 			where: {
 				id: req.params.id,
