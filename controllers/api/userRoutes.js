@@ -50,7 +50,10 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 	// expects {username: 'user', password: 'password1234'}
 	try {
-		const userData = await User.create(req.body);
+		const userData = await User.create({
+			username: req.body.username,
+			password: req.body.password,
+		});
 
 		req.session.save(() => {
 			req.session.user_id = userData.id;
@@ -100,12 +103,20 @@ router.post('/login', async (req, res) => {
 
 // POST /api/users/logout
 router.post('/logout', (req, res) => {
-	if (req.session.logged_in) {
-		req.session.destroy(() => {
-			res.status(204).end();
-		});
-	} else {
-		res.status(404).end();
+	try {
+		if (req.session.logged_in) {
+			req.session.destroy(() => {
+				res.status(204).end();
+				console.log('user logged out');
+			});
+		} else {
+			res.status(404).end();
+			console.log('no user logged in');
+		}
+	} catch (err) {
+		res.status(500).json(err);
+		console.log(err);
+		console.log('error logging out');
 	}
 });
 
