@@ -73,6 +73,26 @@ router.post('/', withAuth, async (req, res) => {
 	}
 });
 
+router.post('/new', withAuth, async (req, res) => {
+	try {
+		if (!req.session) {
+			res.status(400).json({ message: 'You must be logged in to post a comment!' });
+			return;
+		}
+		const commentData = await Comment.create({
+			comment_content: req.body.comment_content,
+			post_id: req.body.post_id,
+			user_id: req.session.user_id,
+		});
+		console.log(commentData);
+		if (commentData) {
+			res.redirect(`/post/${req.body.post_id}`);
+		}
+	} catch (err) {
+		res.status(400).json(err);
+	}
+});
+
 // PUT /api/comments/:id
 // router.put('/:id', async (req, res) => {
 router.put('/:id', withAuth, async (req, res) => {
