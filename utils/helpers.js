@@ -3,4 +3,8 @@ module.exports = {
 		// Format date as MM/DD/YYYY
 		return date.toLocaleDateString();
 	},
+	format_timestamp: (timestamp) => {
+		// format time as HH:MM:SS
+		return timestamp.toLocaleTimeString();
+	},
 };
