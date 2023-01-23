@@ -1,0 +1,98 @@
+<div class="grid place-items-center">
+	<div class="relative mx-5 my-8 max-w-7xl gap-4 grid lg:grid-cols-3">
+		<div
+			class="flex-col flex card col-span-1 bg-base-300 max-w-sm min-w-fit"> 
+			{{!-- xl:bg-teal-300 lg:bg-slate-300 md:bg-slate-500 sm:bg-slate-700 max-sm:bg-slate-900 object-cover"> --}}
+			<div class="card-body text-center">
+				<h2 class="font-semibold text-3xl font-serif">Welcome, {{username}}!</h2>
+				<div class="flex-auto avatar self-center m-4">
+					<div class="w-56 rounded-full  ring ring-primary ring-offset-base-100 ring-offset-2">
+						<img src="https://placeimg.com/256/256/people" />
+					</div>
+				</div>
+				<span class="flex-wrap flex-1 self-center space-x-1">
+					<div class="badge badge-secondary badge-lg">Posts: {{ post_count }}</div>
+					<div class="badge badge-accent badge-lg">Comments: {{ comment_count }}</div>
+				</span>
+			</div>
+		</div>
+		<div class="card col-span-2 bg-base-300 max-w-none">
+			<div class="card-body">
+				<div class="inline-flex place-content-between mt-0">
+					<h2 class="card-title text-3xl font-serif">Add a New Post</h2>
+					<button type="submit" class="btn btn-primary btn-sm w-24">
+						Submit
+					</button>
+				</div>
+				<form id="add-post-form" method="post" class="space-y-4">
+					<div class="form-control max-w-sm">
+						<label class="label sr-only" for="title">
+							<span class="label-text">
+								Title
+							</span>
+						</label>
+						<input type="text" id="login-username" name="title" placeholder="Give it a name!"
+							class="input form-input input-bordered w-full" />
+					</div>
+					<div class="form-control w-full">
+						<label class="label sr-only" for="post_content">
+							<span class="label-text">
+								Body
+							</span>
+						</label>
+						<textarea name="post_content" class="resize-none textarea textarea-bordered h-56"
+							placeholder="What's on your mind?"></textarea>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="grid place-items-center mt-12">
+	{{#if posts.length}}
+	<div class="grid place-items-center" id="post-list">
+		<h3 class="card-title text-3xl font-serif">My Posts</h3>
+		{{#each posts as |post| }}
+		<article class="grid place-items-center my-8 max-sm:mx-5 max-w-screen-2xl ">
+			<div class="card sm:w-2/3 bg-base-300 shadow-xl">
+				<div class="card-body">
+					<a href="/post/{{post.id}}" class="underline">
+						<h2 class="card-title text-2xl font-serif">
+							{{ post.title }}
+						</h2>
+					</a>
+
+					<span class="text-zinc-500 inline-block">
+						Posted on {{format_date post.created_at}} at {{format_timestamp post.created_at}}
+					</span>
+					<p>
+						{{ post.post_content }}
+					</p>
+					<div class="divider my-0"></div>
+					<div class="inline-flex place-content-between">
+						<a href="/post/{{post.id}}">
+							<span class="items-start text-base-100 inline-flex btn btn-sm btn-primary pt-1">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+									stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+									<path stroke-linecap="round" stroke-linejoin="round"
+										d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+								</svg>
+								{{post.comment_count}}
+							</span>
+						</a>
+
+						<div class="flex flex-row gap-2">
+							<button class="btn btn-sm btn-accent" data-id="{{post.id}}">Edit</button>
+							<button class="btn btn-sm btn-error" data-id="{{post.id}}">Delete</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+		{{/each}}
+	</div>
+	{{/if}}
+</div>
+
+<script src="/js/dashboard.js"></script>
