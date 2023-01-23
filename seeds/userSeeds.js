@@ -17,6 +17,22 @@ const userData = [
 		username: 'robbyrob',
 		password: 'password4',
 	},
+	{
+		username: 'jimmyjim',
+		password: 'password5',
+	},
+	{
+		username: 'nosaltsoftware',
+		password: 'password6',
+	},
+	{
+		username: 'javascript4life',
+		password: 'password7',
+	},
+	{
+		username: 'technomancer',
+		password: 'password8',
+	}
 ];
 
 const seedUsers = () => User.bulkCreate(userData, { individualHooks: true, returning: true });
