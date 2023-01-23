@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="cupcake">
+{{!-- <html lang="en" data-theme="emerald"> --}}
+{{!-- <html lang="en" data-theme="cupcake"> --}}
+{{!-- <html lang="en" data-theme="customNight"> --}}
+{{!-- <html lang="en" data-theme="corporate"> --}}
+{{!-- < lang="en" data-theme="business"> --}}
+<html lang="en" data-theme="dracula">
 
 <head>
 	<meta charset="UTF-8">
@@ -9,7 +14,7 @@
 </head>
 
 <body>
-	<div class="navbar bg-base-100">
+	<div class="navbar bg-base-300">
 		<div class="navbar-start">
 			<div class="dropdown">
 				<label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -24,13 +29,13 @@
 					<li><a href="/">Home</a></li>
 					<li><a href="/dashboard">Dashboard</a></li>
 					{{#if logged_in}}
-					<li><button id="logout">Logout</button></li>
+					<li><button type="button" id="logout">Logout</button></li>
 					{{else}}
 					<li><a href="/login">Login</a></li>
 					{{/if}}
 				</ul>
 			</div>
-			<a class="btn btn-ghost normal-case text-xl">Mega Tech Blog</a>
+			<p class="text-3xl font-bold font-serif p-2 flex-none">Mega Tech Blog</p>
 		</div>
 		<div class="navbar-center hidden lg:flex">
 			<ul class="menu menu-horizontal px-1">
@@ -43,14 +48,15 @@
 				{{/if}}
 			</ul>
 		</div>
+		<!-- doesn't work on homepage, only dashboard, maybe fix later -->
 		<div class="navbar-end">
-			{{#if logged_in}}
+			<!-- {{#if logged_in}}
 			<div class="px-4">
 				<span class="font-bold">Logged in as {{username}}</span>
 				{{!-- <a class="btn btn-sm">New Post</a> --}}
 			</div>
-			{{/if}}
-		</div>
+			{{/if}}-->
+		</div> 
 	</div>
 
 	<main>
