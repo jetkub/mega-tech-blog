@@ -29,6 +29,18 @@ router.get('/', async (req, res) => {
 router.get('/post/:id', async (req, res) => {
 	try {
 		const postData = await Post.findByPk(req.params.id, {
+			attributes: [
+				'id',
+				'post_content',
+				'title',
+				'created_at',
+				'updated_at',
+				// use raw MySQL aggregate function query to get a count of how many comments are on each post and return it under the name `comment_count`
+				[
+					sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'),
+					'comment_count',
+				],
+			],
 			include: [
 				{
 					model: User,
@@ -56,11 +68,79 @@ router.get('/post/:id', async (req, res) => {
 	}
 });
 
+// GET dashboard
+router.get('/dashboard', withAuth, async (req, res) => {
+	try {
+		// find the logged in user based on the session ID
+		const userData = await User.findByPk(req.session.user_id, {
+			attributes: { exclude: ['password'] },
+			include: [
+				{
+					model: Post,
+					attributes: [
+						'id',
+						'title',
+						'post_content',
+						'created_at',
+						'updated_at',
+						[
+							sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'),
+							'comment_count',
+						],
+					],
+				},
+				{
+					model: Comment,
+				},
+			],
+		});
+
+		const user = userData.get({ plain: true });
+		console.log(user);
+
+		res.render('dashboard', {
+			...user,
+			logged_in: true,
+		});
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
+
+// edit post view
+router.get('/dashboard/edit/:id', withAuth, async (req, res) => {
+	try {
+		const postData = await Post.findByPk(req.params.id, {
+			attributes: [
+				'id',
+				'post_content',
+				'title',
+				'created_at',
+				'updated_at',
+				[
+					sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'),
+					'comment_count',
+				],
+			],
+		});
+
+		const post = postData.get({ plain: true });
+		console.log(post);
+
+		res.render('edit-post', {
+			...post,
+			logged_in: true,
+		});
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
+
 // GET login
 router.get('/login', (req, res) => {
 	// If the user is already logged in, redirect the request to another route
 	if (req.session.logged_in) {
-		res.redirect('/');
+		res.redirect('/dashboard');
 		return;
 	}
 
@@ -70,25 +150,6 @@ router.get('/login', (req, res) => {
 // GET signup
 router.get('/signup', (req, res) => {
 	res.render('signup');
-});
-
-// GET dashboard
-router.get('/dashboard', withAuth, async (req, res) => {
-	try {
-		const userData = await User.findByPk(req.session.user_id, {
-			attributes: { exclude: ['password'] },
-			include: [{ model: Post }],
-		});
-
-		const user = userData.get({ plain: true });
-
-		res.render('dashboard', {
-			...user,
-			logged_in: true,
-		});
-	} catch (err) {
-		res.status(500).json(err);
-	}
 });
 
 module.exports = router;
