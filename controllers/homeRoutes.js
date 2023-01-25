@@ -1,11 +1,25 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
+const sequelize = require('../config/connection');
 const withAuth = require('../utils/auth');
 
 // GET all posts for homepage
 router.get('/', async (req, res) => {
 	try {
 		const postData = await Post.findAll({
+			attributes: [
+				'id',
+				'post_content',
+				'title',
+				'created_at',
+				'updated_at',
+				// use raw MySQL aggregate function query to get a count of how many comments are on each post and return it under the name `comment_count`
+				[
+					sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'),
+					'comment_count',
+				],
+			],
+			order: [['created_at', 'DESC']],
 			include: [
 				{
 					model: User,
@@ -15,6 +29,7 @@ router.get('/', async (req, res) => {
 		});
 
 		const posts = postData.map((post) => post.get({ plain: true }));
+		console.log(posts);
 
 		res.render('homepage', {
 			posts,
@@ -48,7 +63,7 @@ router.get('/post/:id', async (req, res) => {
 				},
 				{
 					model: Comment,
-					attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at', 'updated_at'],
+					attributes: ['id', 'comment_content', 'post_id', 'user_id', 'created_at', 'updated_at'],
 					include: {
 						model: User,
 						attributes: ['username'],
@@ -58,6 +73,7 @@ router.get('/post/:id', async (req, res) => {
 		});
 
 		const post = postData.get({ plain: true });
+		console.log(post);
 
 		res.render('single-post', {
 			...post,
@@ -73,7 +89,17 @@ router.get('/dashboard', withAuth, async (req, res) => {
 	try {
 		// find the logged in user based on the session ID
 		const userData = await User.findByPk(req.session.user_id, {
-			attributes: { exclude: ['password'] },
+			attributes: {
+				exclude: ['password'],
+				include: [
+					// sql query that will retrun total number of posts and comments for each user
+					[sequelize.literal('(SELECT COUNT(*) FROM post WHERE user.id = post.user_id)'), 'post_count'],
+					[
+						sequelize.literal('(SELECT COUNT(*) FROM comment WHERE user.id = comment.user_id)'),
+						'comment_count',
+					],
+				],
+			},
 			include: [
 				{
 					model: Post,
@@ -83,10 +109,10 @@ router.get('/dashboard', withAuth, async (req, res) => {
 						'post_content',
 						'created_at',
 						'updated_at',
-						[
-							sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'),
-							'comment_count',
-						],
+						// [
+						// 	sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'),
+						// 	'comment_count',
+						// ],
 					],
 				},
 				{
