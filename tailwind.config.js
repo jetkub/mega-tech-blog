@@ -33,6 +33,7 @@ module.exports = {
 			},
 			'light',
 			'dark',
+			'dracula',
 			'cupcake',
 			'emerald',
 			'corporate',
