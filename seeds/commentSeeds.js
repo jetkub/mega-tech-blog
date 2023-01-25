@@ -2,32 +2,32 @@ const Comment = require('../models/Comment');
 
 const commentData = [
 	{
-		comment_content: 'Nice post! Eager to see more.',
+		comment_content: 'Nice post! Eager to see more content about accessibility.',
 		user_id: 5,
 		post_id: 1,
 	},
 	{
-		comment_content: 'Let\'s see Paul Allen\'s blog.',
+		comment_content: 'Very nice. Let\'s see Paul Allen\'s operating system.',
 		user_id: 6,
-		post_id: 2,
+		post_id: 3,
 	},
 	{
-		comment_content: 'Nice blog! Check out my blog too! I used this tutorial to make it.',
+		comment_content: 'YESSSSS. I\'ve been preaching this for years. Thank you for writing this.',
 		user_id: 3,
 		post_id: 2,
 	},
 	{
-		comment_content: 'How do you do <insert specific thing here>?',
+		comment_content: 'I\'ve been using linux since 2005 and I\'ve never had a problem with it.',
 		user_id: 7,
 		post_id: 3,
 	},
 	{
-		comment_content: 'Can you explain why you did <insert specific thing here>?',
+		comment_content: 'I\'ve been using linux since yesterday and I\'ve had nothing but problems with it.',
 		user_id: 2,
 		post_id: 3,
 	},
 	{
-		comment_content: 'This FINALLY helped me understand how to use the map method on an array!',
+		comment_content: 'You should check out the vscode.dev PWA. It\'s a great way to code on the go! It supports remote tunnels so you can code on your local machine from anywhere.',
 		user_id: 8,
 		post_id: 4,
 	},
