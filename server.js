@@ -16,7 +16,7 @@ const hbs = exphbs.create({ helpers });
 const sess = {
 	secret: 'sensitize-hurry7-pointing-moonshine',
 	cookie: {
-		maxAge: 60 * 60 * 1000,
+		maxAge: 5 * 60 * 1000, // 5 minutes -> 5 * 60 seconds * 1000 = 300000 milliseconds
 		secure: false, // set to true if your using https/for production
 		httpOnly: true,
 		sameSite: 'strict',
