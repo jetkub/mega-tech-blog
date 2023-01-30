@@ -18,6 +18,7 @@ const COOKIE_SECURE = process.env.COOKIE_SECURE === 'true' ? true : false;
 
 const sess = {
 	secret: 'sensitize-hurry7-pointing-moonshine',
+	proxy: true,
 	cookie: {
 		maxAge: 5 * 60 * 1000, // 5 minutes -> 5 * 60 seconds * 1000 = 300000 milliseconds
 		secure: COOKIE_SECURE, // set to true if your using https/for production
@@ -31,6 +32,7 @@ const sess = {
 	}),
 };
 
+app.set('trust proxy', 1);
 app.use('/', session(sess));
 
 app.engine('handlebars', hbs.engine);
