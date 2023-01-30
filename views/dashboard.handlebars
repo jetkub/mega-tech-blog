@@ -6,7 +6,8 @@
 				<h2 class="font-semibold text-3xl font-serif">Welcome, {{username}}!</h2>
 				<div class="flex-auto avatar self-center m-4">
 					<div class="w-56 rounded-full  ring ring-primary ring-offset-base-100 ring-offset-2">
-						<img src="https://i.pravatar.cc/300" />
+						{{!-- <img src="https://i.pravatar.cc/300" /> --}}
+						<img src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
 					</div>
 				</div>
 				<span class="flex-wrap flex-1 self-center space-x-1">
@@ -53,7 +54,7 @@
 <div class="grid place-items-center mt-12" id="post-list">
 	<h3 class="card-title text-3xl font-serif">My Posts</h3>
 	{{#each posts as |post| }}
-	<article class="grid place-items-center my-8 mx-3 max-w-screen-2xl">
+	<article class="grid place-items-center my-8 mx-3 max-w-screen-2xl sm:min-w-full">
 		<div class="card sm:w-2/3 bg-base-300 shadow-xl">
 			<div class="card-body">
 				<a href="/post/{{post.id}}" class="underline">
