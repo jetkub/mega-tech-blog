@@ -29,7 +29,6 @@ router.get('/', async (req, res) => {
 		});
 
 		const posts = postData.map((post) => post.get({ plain: true }));
-		console.log(posts);
 
 		res.render('homepage', {
 			posts,
@@ -74,7 +73,6 @@ router.get('/post/:id', async (req, res) => {
 		});
 
 		const post = postData.get({ plain: true });
-		console.log(post);
 
 		res.render('single-post', {
 			...post,
@@ -124,40 +122,9 @@ router.get('/dashboard', withAuth, async (req, res) => {
 		});
 
 		const user = userData.get({ plain: true });
-		console.log(user);
 
 		res.render('dashboard', {
 			...user,
-			logged_in: true,
-			username: req.session.username,
-		});
-	} catch (err) {
-		res.status(500).json(err);
-	}
-});
-
-// edit post view
-router.get('/dashboard/edit/:id', withAuth, async (req, res) => {
-	try {
-		const postData = await Post.findByPk(req.params.id, {
-			attributes: [
-				'id',
-				'post_content',
-				'title',
-				'created_at',
-				'updated_at',
-				[
-					sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'),
-					'comment_count',
-				],
-			],
-		});
-
-		const post = postData.get({ plain: true });
-		console.log(post);
-
-		res.render('edit-post', {
-			...post,
 			logged_in: true,
 			username: req.session.username,
 		});
