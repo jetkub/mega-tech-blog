@@ -102,33 +102,10 @@ router.post('/login', async (req, res) => {
 });
 
 // POST /api/users/logout
-// router.post('/logout', (req, res) => {
-// 	try {
-// 		if (req.session.logged_in) {
-// 			// console log in cyan
-// 			console.log('\x1b[36m%s\x1b[0m', 'user logging out');
-// 			req.session.destroy(() => {
-// 				res.status(204).end();
-// 			});
-// 		} else {
-// 			// console log in red
-// 			console.log('\x1b[31m%s\x1b[0m', 'no user logged in');
-// 			res.status(404).end();
-// 			console.log('no user logged in');
-// 		}
-// 	} catch (err) {
-// 		res.status(500).json(err);
-// 		console.log(err);
-// 		console.log('error logging out');
-// 	}
-// });
-
 router.post('/logout', (req, res) => {
 	if (req.session.logged_in) {
 		req.session.destroy(() => {
-			where = {
-				sid: req.session.id,
-			};
+			res.status(204).end();
 		});
 	} else {
 		res.status(404).end();
