@@ -28,8 +28,8 @@ User.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 			validate: {
-				// password must be at least 12 characters long
-				len: [12],
+				// password must be at least 8 characters long
+				len: [8],
 			},
 		},
 	},
