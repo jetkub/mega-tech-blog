@@ -1,12 +1,10 @@
 <div class="grid place-items-center">
-	<div class="relative mx-3 my-8 max-w-7xl gap-4 grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
+	<div class="relative mx-3 my-8 gap-4 grid lg:grid-cols-3 grid-cols-1">
 		<div class="card col-span-1 bg-base-300 max-w-sm min-w-fit">
-			{{!-- xl:bg-teal-300 lg:bg-slate-300 md:bg-slate-500 sm:bg-slate-700 max-sm:bg-slate-900 object-cover"> --}}
 			<div class="card-body text-center">
 				<h2 class="font-semibold text-3xl font-serif">Welcome, {{username}}!</h2>
-				<div class="flex-auto avatar self-center m-4">
-					<div class="w-56 rounded-full  ring ring-primary ring-offset-base-100 ring-offset-2">
-						{{!-- <img src="https://i.pravatar.cc/300" /> --}}
+				<div class="flex-auto avatar self-center items-center m-4">
+					<div class="h-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
 						<img src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
 					</div>
 				</div>
@@ -16,16 +14,14 @@
 				</span>
 			</div>
 		</div>
-		<div class="card col-span-2 bg-base-300 max-w-none min-w-fit">
-			<form id="add-post-form" class="space-y-4">
+		<div class="card lg:col-span-2 col-span-1 bg-base-300 max-w-none min-w-fit">
+			<form id="add-post-form" class="">
 				<div class="card-body">
 					<div class="inline-flex place-content-between mb-2">
 						<h2 class="card-title text-3xl font-serif">Add a New Post</h2>
-						<button type="submit" class="btn btn-primary btn-sm">
-							Submit
-						</button>
+
 					</div>
-					<div class="form-control max-w-sm mb-2">
+					<div class="form-control mb-2">
 						<label class="label sr-only" for="title">
 							<span class="label-text">
 								Title
@@ -34,15 +30,18 @@
 						<input type="text" id="post-title" name="title" placeholder="Give it a name!"
 							class="input form-input input-bordered w-full" />
 					</div>
-					<div class="form-control w-full">
+					<div class="form-control w-full mb-2">
 						<label class="label sr-only" for="post_content">
 							<span class="label-text">
 								Body
 							</span>
 						</label>
-						<textarea name="post_content" class="resize-none textarea textarea-bordered h-52"
+						<textarea name="post_content" class="resize-none textarea textarea-bordered h-44 "
 							id="post-content" placeholder="What's on your mind?"></textarea>
 					</div>
+					<button type="submit" class="btn btn-primary btn-sm">
+						Submit
+					</button>
 				</div>
 			</form>
 		</div>
@@ -51,10 +50,10 @@
 
 
 {{#if posts.length}}
-<div class="grid place-items-center mt-12" id="post-list">
+<div class="grid place-items-center mt-8" id="post-list">
 	<h3 class="card-title text-3xl font-serif">My Posts</h3>
 	{{#each posts as |post| }}
-	<article class="grid place-items-center my-8 mx-3 max-w-screen-2xl sm:min-w-full">
+	<article class="grid place-items-center my-4 mx-3 max-w-screen-2xl sm:min-w-full">
 		<div class="card sm:w-2/3 bg-base-300 shadow-xl">
 			<div class="card-body">
 				<a href="/post/{{post.id}}" class="underline">
@@ -97,8 +96,9 @@
 	<input type="checkbox" id="edit-modal-{{post.id}}" class="modal-toggle" />
 	<div class="modal modal-bottom" id="update-post-modal">
 		<div class="modal-box bg-base-300 sm:w-2/3 mx-2 w-full">
-			<label for="edit-modal-{{post.id}}" class="btn btn-sm btn-circle absolute right-4 top-4">✕</label> 
-			{{!-- <button for="edit-modal-{{post.id}}" class="btn btn-sm btn-circle absolute right-4 top-4">✕</button> --}}
+			<label for="edit-modal-{{post.id}}" class="btn btn-sm btn-circle absolute right-4 top-4">✕</label>
+			{{!-- <button for="edit-modal-{{post.id}}" class="btn btn-sm btn-circle absolute right-4 top-4">✕</button>
+			--}}
 			<section id="edit-post-form" class="space-y-4">
 				<div class="inline-flex place-content-between mb-2">
 					<h2 class="card-title text-3xl font-serif">Edit Post</h2>
@@ -122,8 +122,10 @@
 						id="updated-content-{{post.id}}">{{post.post_content}}</textarea>
 				</div>
 				<div class="modal-action">
-					{{!-- <label for="edit-modal-{{post.id}}" id="update-btn" class="btn btn-sm btn-primary">Update</label> --}}
-					<button type="button" class="btn btn-sm btn-primary" id="update-btn-{{post.id}}" data-id="{{post.id}}">Update</button>
+					{{!-- <label for="edit-modal-{{post.id}}" id="update-btn"
+						class="btn btn-sm btn-primary">Update</label> --}}
+					<button type="button" class="btn btn-sm btn-primary" id="update-btn-{{post.id}}"
+						data-id="{{post.id}}">Update</button>
 				</div>
 			</section>
 		</div>
