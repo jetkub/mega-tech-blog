@@ -1,8 +1,9 @@
 const updatePostHandler = async (event) => {
-	if (event.target.id === 'update-btn') {
+	// if the event target matches on id that starts with 'update-btn-'
+	if (event.target.matches('button[id^=\'update-btn-\']')) {
 		const id = event.target.getAttribute('data-id');
-		const title = document.querySelector('#updated-title').value.trim();
-		const post_content = document.querySelector('#updated-content').value.trim();
+		const title = document.querySelector(`#updated-title-${id}`).value.trim();
+		const post_content = document.querySelector(`#updated-content-${id}`).value.trim();
 		console.log(id);
 		console.log(title);
 		console.log(post_content);
@@ -11,8 +12,8 @@ const updatePostHandler = async (event) => {
 				method: 'PUT',
 				credentials: 'include',
 				body: JSON.stringify({
-					title,
-					post_content,
+					title: title,
+					post_content: post_content,
 				}),
 				headers: { 'Content-Type': 'application/json' },
 			});
@@ -28,4 +29,9 @@ const updatePostHandler = async (event) => {
 	}
 };
 
-document.querySelector('#edit-post-form').addEventListener('submit', updatePostHandler);
+const updateBtns = document.querySelectorAll('button[id^=\'update-btn\']');
+if (updateBtns) {
+	updateBtns.forEach((btn) => {
+		btn.addEventListener('click', updatePostHandler);
+	});
+}
