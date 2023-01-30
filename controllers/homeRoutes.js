@@ -114,6 +114,8 @@ router.get('/dashboard', withAuth, async (req, res) => {
 						// 	'comment_count',
 						// ],
 					],
+					order: [['created_at', 'DESC']],
+					separate: true,
 				},
 				{
 					model: Comment,
