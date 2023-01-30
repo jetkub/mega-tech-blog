@@ -4,6 +4,7 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const routes = require('./controllers');
 const helpers = require('./utils/helpers');
+require('dotenv').config();
 
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -17,7 +18,7 @@ const sess = {
 	secret: 'sensitize-hurry7-pointing-moonshine',
 	cookie: {
 		maxAge: 5 * 60 * 1000, // 5 minutes -> 5 * 60 seconds * 1000 = 300000 milliseconds
-		secure: false, // set to true if your using https/for production
+		secure: process.env.COOKIE_SECURE, // set to true if your using https/for production
 		httpOnly: true,
 		sameSite: 'strict',
 	},
