@@ -1,3 +1,5 @@
+# ❗️NOTE: I've paused the heroku dynos, I can't afford hosting
+
 # Mega Tech Blog
 
 [![GNU GPLv3 License badge](https://img.shields.io/badge/license-GPLv3-green.svg)](https://choosealicense.com/licenses/gpl-3.0/)
